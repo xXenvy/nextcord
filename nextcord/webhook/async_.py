@@ -508,6 +508,9 @@ def handle_message_parameters(
 
     payload: Dict[str, Any] | None = {}
 
+    if thread_name:
+        payload["thread_name"] = thread_name
+
     if file is not MISSING or files is not MISSING:
         payload["attachments"] = []
 
@@ -586,9 +589,6 @@ def handle_message_parameters(
             )
         multipart[0]["value"] = utils.to_json(payload)
         payload = None
-
-    if thread_name:
-        payload["thread_name"] = thread_name
 
     return ExecuteWebhookParameters(payload=payload, multipart=multipart, files=files)
 
@@ -1356,7 +1356,7 @@ class Webhook(BaseWebhook):
         embeds: List[Embed] = MISSING,
         allowed_mentions: AllowedMentions = MISSING,
         view: View = MISSING,
-        thread_id: Snowflake = MISSING,
+        thread: Snowflake = MISSING,
         wait: Literal[True],
         delete_after: Optional[float] = None,
         ephemeral: Optional[bool] = None,
@@ -1380,7 +1380,7 @@ class Webhook(BaseWebhook):
         embeds: List[Embed] = MISSING,
         allowed_mentions: AllowedMentions = MISSING,
         view: View = MISSING,
-        thread_id: Snowflake = MISSING,
+        thread: Snowflake = MISSING,
         wait: Literal[False] = ...,
         delete_after: Optional[float] = None,
         ephemeral: Optional[bool] = None,
